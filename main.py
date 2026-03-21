@@ -4,9 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import sys
+import io
 print(sys.executable)
 
 # cli to start panel server: `panel serve main.py`
+
+# cli for dev mode panel serve app.py --dev --show --autoreload 
+# reloads app on file changes and opens in browser automatically
 
 # configures panel en preloads the specified extensions and widget support
 pn.extension("plotly", "vega", "tabulator")
@@ -23,14 +27,32 @@ test_alert = pn.Column(*[
     sizing_mode="stretch_width"
 )
 
+# submit button test
+submit_test = pn.widgets.Button(name="Load CSV", button_type="primary")
+
 # test file input component
 test_file_input = pn.widgets.FileInput(accept=".csv", multiple=False)
 
-# label displayable panel component
-test = pn.Column(test_alert, test_file_input)
+
+# binding file input to test print
+# pn.bind(test_file_input, print(test_file_input.value))
+
+
+table = pn.pane.DataFrame()
+
+def load_csv(event):
+    if test_file_input.value is not None:
+        df = pd.read_csv(io.BytesIO(test_file_input.value))
+        table.object = df
+        print("data loading complete")
+
+submit_test.on_click(load_csv)
 
 
 
+
+# label displayable panel components
+test = pn.Column(test_alert, test_file_input,submit_test, table)
 
 
 
