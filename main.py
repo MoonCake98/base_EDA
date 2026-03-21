@@ -21,11 +21,21 @@ test_alert = pn.Column(*[
     pn.pane.Alert(text.format(alert_type=at), alert_type=at)
     for at in pn.pane.Alert.param.alert_type.objects],
     sizing_mode="stretch_width"
-).servable()
+)
+
+# test file input component
+test_file_input = pn.widgets.FileInput(accept=".csv", multiple=False)
 
 # label displayable panel component
-test = test_alert
+test = pn.Column(test_alert, test_file_input)
 
-if __name__ == "__main__":
-    test.servable() # displays component in server app
+
+
+
+
+
+
+test.servable() # displays component in server app
+
+# if __name__ == "__main__":
 
