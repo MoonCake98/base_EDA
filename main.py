@@ -57,7 +57,7 @@ submit_test.on_click(load_csv)
 
 
 # label displayable panel components
-test = pn.Column(test_alert, test_file_input,submit_test, table)
+test = pn.Column(test_file_input,submit_test, table)
 
 
 
