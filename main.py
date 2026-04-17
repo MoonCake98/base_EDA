@@ -7,6 +7,10 @@ import sys
 import io
 print(sys.executable)
 
+# make sure its a dark theme
+pn.config.theme = "dark"
+
+
 # cli to start panel server: `panel serve main.py`
 
 # cli for dev mode | panel serve app.py --dev --show --autoreload 
@@ -49,16 +53,27 @@ def load_csv(event):
         df = pd.read_csv(io.BytesIO(test_file_input.value))
         global table
         table.clear()
-        table.append(pn.widgets.Tabulator(df, pagination="remote", page_size=10))
+        table.append(pn.widgets.Tabulator(df, pagination="remote",theme="midnight",sizing_mode="stretch_both",layout="fit_columns"))
         print("data loading complete")
 submit_test.on_click(load_csv)
 
+p1 = pn.Column(pn.pane.Markdown("### This is a test panel app"), sizing_mode="stretch_both")
 
-
+#add tabs
+tabs= pn.Tabs(
+    ("Tab 1", p1),
+    ("Tab 2", pn.pane.Markdown("### This is tab 2 content")),
+    ("Tab 3", pn.pane.Markdown("### This is tab 3 content")),
+    sizing_mode="stretch_both", dynamic=True
+)
 
 # label displayable panel components
-test = pn.Column(test_file_input,submit_test, table)
-
+test = pn.Column(test_file_input,submit_test, table, tabs,  sizing_mode="stretch_both",
+    styles={
+        "width": "100vw",     # full viewport width
+        "height": "100vh",    # full viewport height
+        "overflow": "hidden"  # prevents spillover
+    })
 
 
 
