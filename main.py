@@ -16,16 +16,16 @@ print(sys.executable)
 pn.extension("plotly", "vega", "tabulator")
 
 # test alert types
-text = (
-    "This is a **{alert_type}** alert with [an example link]"
-    "(https://panel.holoviz.org/). Give it a click if you like."
-)
+# text = (
+#     "This is a **{alert_type}** alert with [an example link]"
+#     "(https://panel.holoviz.org/). Give it a click if you like."
+# )
 
-test_alert = pn.Column(*[
-    pn.pane.Alert(text.format(alert_type=at), alert_type=at)
-    for at in pn.pane.Alert.param.alert_type.objects],
-    sizing_mode="stretch_width"
-)
+# test_alert = pn.Column(*[
+#     pn.pane.Alert(text.format(alert_type=at), alert_type=at)
+#     for at in pn.pane.Alert.param.alert_type.objects],
+#     sizing_mode="stretch_width"
+# )
 
 # submit button test
 submit_test = pn.widgets.Button(name="Load CSV", button_type="primary")
