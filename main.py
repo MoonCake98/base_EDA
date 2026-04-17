@@ -49,7 +49,7 @@ def load_csv(event):
         df = pd.read_csv(io.BytesIO(test_file_input.value))
         global table
         table.clear()
-        table.append(pn.widgets.Tabulator(df))
+        table.append(pn.widgets.Tabulator(df, pagination="remote", page_size=10))
         print("data loading complete")
 submit_test.on_click(load_csv)
 
