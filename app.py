@@ -33,6 +33,8 @@ class eda_app():
         # object file input component
         self.input = pn.widgets.FileInput(accept=".csv", multiple=False)
 
+        self.df = None
+
         self.table = pn.Column(
             pn.pane.Markdown(
                 "### No data loaded yet. Please select a CSV file and click 'Load CSV' to display the data."
@@ -65,10 +67,11 @@ class eda_app():
 
     def load_csv(self,event):
         if self.input.value is not None:
-            df = pd.read_csv(io.BytesIO(self.input.value))
+            self.df = pd.read_csv(io.BytesIO(self.input.value))
             self.table.clear()
-            self.table.append(pn.widgets.Tabulator(df, pagination="remote",theme="midnight",sizing_mode="stretch_both",layout="fit_columns"))
+            self.table.append(pn.widgets.Tabulator(self.df, pagination="remote",theme="midnight",sizing_mode="stretch_both",layout="fit_columns"))
             print("data loading complete")
+            
 
 
 
