@@ -60,14 +60,4 @@ class eda_app():
         test.servable() # displays component in server app
 
 
-
-def main():
-        # create an instance of the EDA_webapp class
-        print("webapp instance creating")
-
-        web_app = eda_app()
-        print("created")
-
-
-if __name__ == "__main__":
-    main()``
+app = eda_app()
