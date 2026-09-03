@@ -20,7 +20,6 @@ class eda_app():
                 )
 
         
-        # self.submit_test = submit_test
         # self.test_file_input = test_file_input
         # self.tabs = tabs
 
@@ -30,10 +29,10 @@ class eda_app():
         # submit button
         submit_test = pn.widgets.Button(name="Load CSV", button_type="primary")
 
-        # test file input component
-        test_file_input = pn.widgets.FileInput(accept=".csv", multiple=False)
+        # object file input component
+        self.input = pn.widgets.FileInput(accept=".csv", multiple=False)
 
-        table = pn.Column(
+        self.table = pn.Column(
             pn.pane.Markdown(
                 "### No data loaded yet. Please select a CSV file and click 'Load CSV' to display the data."
                 )
@@ -47,17 +46,29 @@ class eda_app():
             ("Tab 2", pn.pane.Markdown("### This is tab 2 content")),
             ("Tab 3", pn.pane.Markdown("### This is tab 3 content")),
             sizing_mode="stretch_both", dynamic=True
-)
-        
+        )
 
-        test = pn.Column(test_file_input,submit_test, table, tabs,  sizing_mode="stretch_both",
+    # def load_csv(event):
+    #     if test_file_input.value is not None:
+    #     df = pd.read_csv(io.BytesIO(test_file_input.value))
+    #     global table
+    #     table.clear()
+    #     table.append(pn.widgets.Tabulator(df, pagination="remote",theme="midnight",sizing_mode="stretch_both",layout="fit_columns"))
+    #     print("data loading complete")
+    #     submit_test.on_click(load_csv)
+
+        
+        # complete servable answer
+        self.complete_serving = pn.Column(
+            self.input,submit_test, self.table,
+                   tabs,  sizing_mode="stretch_both",
         styles={
         "width": "100vw",     # full viewport width
         "height": "100vh",    # full viewport height
         "overflow": "hidden"  # prevents spillover
         })
 
-        test.servable() # displays component in server app
+        self.complete_serving.servable() # displays component in server app
 
 
 app = eda_app()
