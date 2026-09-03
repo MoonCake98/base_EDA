@@ -1,3 +1,4 @@
+from main import load_csv
 import panel as pn
 import pandas as pd
 import numpy as np
@@ -27,7 +28,7 @@ class eda_app():
         pn.extension("plotly", "vega", "tabulator")
 
         # submit button
-        submit_test = pn.widgets.Button(name="Load CSV", button_type="primary")
+        self.submit_button = pn.widgets.Button(name="Load CSV", button_type="primary")
 
         # object file input component
         self.input = pn.widgets.FileInput(accept=".csv", multiple=False)
@@ -47,20 +48,9 @@ class eda_app():
             ("Tab 3", pn.pane.Markdown("### This is tab 3 content")),
             sizing_mode="stretch_both", dynamic=True
         )
-
-    # def load_csv(event):
-    #     if test_file_input.value is not None:
-    #     df = pd.read_csv(io.BytesIO(test_file_input.value))
-    #     global table
-    #     table.clear()
-    #     table.append(pn.widgets.Tabulator(df, pagination="remote",theme="midnight",sizing_mode="stretch_both",layout="fit_columns"))
-    #     print("data loading complete")
-    #     submit_test.on_click(load_csv)
-
-        
         # complete servable answer
         self.complete_serving = pn.Column(
-            self.input,submit_test, self.table,
+            self.input,self.submit_button, self.table,
                    tabs,  sizing_mode="stretch_both",
         styles={
         "width": "100vw",     # full viewport width
@@ -68,7 +58,20 @@ class eda_app():
         "overflow": "hidden"  # prevents spillover
         })
 
+        # attach the update of the table to the button click event
+        self.submit_button.on_click(self.load_csv)
+
         self.complete_serving.servable() # displays component in server app
+
+    def load_csv(self,event):
+        if self.input.value is not None:
+            df = pd.read_csv(io.BytesIO(self.input.value))
+            self.table.clear()
+            self.table.append(pn.widgets.Tabulator(df, pagination="remote",theme="midnight",sizing_mode="stretch_both",layout="fit_columns"))
+            print("data loading complete")
+
+
+
 
 
 app = eda_app()
